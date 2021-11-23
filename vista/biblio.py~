@@ -1,0 +1,9 @@
+import funciones
+import menu
+
+if __name__ == '__main__':
+    libros = []
+    lectores = []
+    funcionario = funciones.iniciar_secion()
+    biblio = Biblioteca(funcionario, libros, lectores)
+
