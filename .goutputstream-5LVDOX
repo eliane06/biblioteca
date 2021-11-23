@@ -1,0 +1,202 @@
+class Biblioteca:
+    """Clase que representa a la biblioteca"""
+    def __init__(self, funcionarios, libros, lectores):
+        self.__list_funcionarios = funcionarios
+        self.__list_libros = libros
+        self.__list_lectores = lectores
+
+    
+class TipoLibro:
+    """Clase que representa a los tipos de libros"""
+    def __init__(self):
+        pass
+    
+        
+class Prestable:
+    """Clase que representa a cosas prestables  """
+    def prestarse(self):
+        pass
+
+    def devolverse(self):
+        pass
+
+
+class Persona:
+    """Clase que representa a las personas  """   
+    def __init__(self, nombre, apellido, cedula ):
+        self.__nombre = nombre
+        self.__apellido = apellido
+        self.__cedula = cedula
+    
+
+class Autor(Persona):
+    """ Clase que representa a autores """
+
+    def __init(self, nacionalidad, *args):
+        super().__init__(self, *args)
+        self.__nacionalidad = nacionalidad
+
+
+class Libro(Prestable):
+    """Clase que representa a los libros"""
+    def __init__(self, codigo, nombre, tipo, edicion, autor):
+        self.__codigo = codigo
+        self.__nombre = nombre
+        self.__tipo = tipo
+        self.__edicion = edicion
+        self.__autor = autor
+        self.__estado_disponible = True
+
+    def esta_disponible(self):
+        return self.__estado_disponible
+     
+    def prestarse(self, fechaInicio):
+       self.__estado_disponible = False
+      
+    def devolverse(self):
+        self.__estado_disponible = True
+        
+    def get_codigo(self):
+        return self.__codigo
+
+class Lector(Persona):
+    """Clase que representa a los lectores"""
+    MAX_LIBRO = 3
+    MAX_RESERVA = 2
+    def __init(self, nroCarnet, *args, ficha):
+        super().__init__(self, *args)
+        self.__nroCarnet = nroCarnet
+        self.__estado_moroso = False
+        self.__ficha = ficha
+        self.__cant__libros = 0
+        self.__cant_reservados = 0
+
+    def puede_prestar(self):
+        return not (MAX_LIBRO == self.__cantidad_libros and self.__estado_moroso)
+      
+    def puede_reservar(self):
+        return not (MAX_RESERVA == self.__cant_reservados and self.__estado_moroso)
+    
+    def get_fecha_prestamo(self, libro):     
+        return self.__ficha.get_fecha_prestamo(libro)
+
+    def prestar(self, libro, fecha):
+        self.__cantLibros += 1
+        self.__ficha.agregar_libro_prestado(libro, fecha)
+
+    def devolver(self, libro):
+        self.__ficha.quitar_libro_prestado(libro, fecha)
+            
+    def reservar(self, libro, fecha):
+        self.__ficha.agregar_libro_reservado(libro, fecha)
+
+    def multar(self, monto):
+        self.__monto_pagar = monto
+        self.__estado_moroso = True
+  
+    def pagar_multa(self):
+        self.__monto_pagar = 0
+        self.__estado_moroso = False
+    
+    def get_ficha(self):
+        return self.__ficha
+            
+class Encargado(Persona):
+    """Clase que representa a los encargados de la biblioteca"""
+    
+    MAX_DIAS = 10 #cantidad de dias que puede durar un prestamo de un libro
+    CONSIDERACION = 1 #dias de consideracion para no multar
+    MULTA_DIARIA = 5000
+
+    def __init(self, nro_funcionario, *args):
+        super().__init__(self, *args)
+        self.__nro_funcionario = nro_funcionario
+    
+    def prestar(self, libro, fecha, lector):
+        print("h")
+        if libro.esta_disponible() and lector.puede_prestar():
+            libro.prestarse(fecha) 
+            lector.prestar(libro, fecha)
+            print("h")
+            return True
+        else:
+            return False
+
+    def devolver(self, libro, fecha, lector):
+        libro.devolverse()
+        fecha_prestamo = lector.get_fecha_prestamo(libro)
+        cant_dias_prestados =  fecha_prestamo - fecha 
+        if cant_dias_prestados > MAX_DIAS + CONSIDERACION:
+            dias = cant_dias_prestados - (MAX_DIAS + CONSIDERACION)
+            lector.multar(dias * MULTA_DIARIA)
+
+    def reservar(self, libro, fecha, lector):
+        if libro.esta_disponible() and lector.puede_reservar:
+            libro.reservarse()
+            lector.reservar(libro, fecha)
+ 
+    def pagar_multa_lect(self, lector):
+        lector.pagar_multa()
+
+class Ficha:
+    """Clase que representa a las fichas de los lectores"""
+    def __init__(self):
+        self.__list_libros = []
+        self.__list_fecha_prestamo = []
+        self.__list_reservas = []
+
+    def agregar_libro_prestado(self, libro, fecha):
+        self.__list_libros.append(libro)
+        self.__list_fecha_prestamo.append(fecha)
+
+    def quitar_libro_prestado(self, libro):
+        self.__list_libros.remove(libro)
+        self.__list_fecha_prestamo.remove(fecha)
+
+    def quitar_libro_reserva(self, libro):
+        self.__list_reservas.remove(libro)
+
+    def agregar_libro_reserva(self, libro):
+        self.__list_reservas.append(libro)
+
+    def get_fecha_prestamo(self, libro):
+        pos = self.__list_libros.index(libro)
+        return self.__list_fecha_prestamo[pos]
+
+class Fecha(Date):
+    """Clase que representa a las fechas"""
+
+    def __init__(self, dia, mes, anho):
+        self.__date = Date(dia, mes, aho)
+
+    def getFecha(self):
+        return self.__date
+
+
+if  __name__ == '__main __' :
+
+    ficha = Ficha()
+    lector1 = Lector(145, "Armando", "Delvalle", 7884322, ficha)
+    lector2 = Lector(146, "Marco", "Villalba", 6684322, ficha)
+    lector3 = Lector(147, "Anahi", "Franco", 7234322, ficha)
+    lector4 = Lector(148, "Viviana", "Denecke", 5234322, ficha)
+ 
+    lectores = [lector1, lector2, lector3, lector4]
+ 
+    #crear autores....
+    libro1 = Libro(543, "Historia de dos ciudades", novela, 4, "Charles Dickens") 	
+    libro2 = Libro(544, "El Señor de los Anillos", fantasia, 3, "J.R.R. Tolkien")
+    libro3 = Libro(545, "El principito", cuento, 3, "Antoine De Saint")
+    libro4 = Libro(546, "Sueño en el pabellón rojo", drama, 4, "Cao Xueqin") 
+
+    funcionario1 = Encargado(123, "Angel", "Mareco", 5432439)
+
+    list_libros = [libro1, libro2, libro3, libro4, libro5]
+    biblio = Biblioteca(funcionario1, list_libros, lectores)
+    
+    if (funcionario1.prestar(libro1, fecha, lector1)):
+        print("h")
+    else:
+        print("R")
+    print(funcionario1.prestar(libro1, fecha, lector2))
+
