@@ -1,0 +1,57 @@
+from controladorPersona import ControladorPersona
+
+class ControlLector(ControladorPersona):
+
+    def get_id_objeto(self, lector):
+        return lector.get_carnet()
+
+    def validar_objeto(self, lector):
+        ControladorPersona.validar_objeto(lector)
+        if not lector.get_carnet() or len(lector.get_carnet().strip()) == 0:
+            raise Exception("Debe cargar numero de carnet del lector")
+
+    def validar_insercion(self, lector):
+        if lector.get_carnet() in self.get_objetos().keys():
+            raise Exception("Ya existe un lector con el nro de carnet ingresado")
+
+    def validar_eliminacion(self, lector):
+        if not lector.get_carnet() in self.get_objetos().keys():
+            raise Exception("NO existe lector con este nro de carnet")
+
+    def get_objetos(self):
+        if not self.__lectores:
+            if not hasattr(get_root(), 'lectores'):
+                get_root().lectores = BTrees.OOBTree.BTree()
+            self.__lectores = getattr(get_root(), 'lectores')
+        return self.__lectores
+
+    
+
+class ControlEncargado(ControladorPersona):
+
+    def get_id_objeto(self, encargado):
+        return encargado.get_nro_funcionario()
+
+    def validar_objeto(self, encargado):
+        ControladorPersona.validar_objeto(encargado)
+        if not encargado.get_nro_funcionario() or len(encargado.get_nro_funcionario().strip()) == 0:
+            raise Exception("Debe cargar numero de funcionario del funcionario")
+
+    def validar_insercion(self, encargado):
+        if encargado.get_nro_funcionario() in self.get_objetos().keys():
+            raise Exception("Ya existe un funcionario con el nro de identificacion ingresado")
+
+    def validar_eliminacion(self, encargado):
+        if not encargado.get_carnet() in self.get_objetos().keys():
+            raise Exception("NO existe encargado con este nro de funcionario")
+
+    def get_objetos(self):
+        if not self.__funcionarios:
+            if not hasattr(get_root(), 'funcionarios'):
+                get_root().funcionarios = BTrees.OOBTree.BTree()
+            self.__funcionarios = getattr(get_root(), 'funcionarios')
+        return self.__funcionarios
+
+  
+
+

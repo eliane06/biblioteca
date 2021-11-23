@@ -1,0 +1,66 @@
+from controlador import Controlador
+
+class ControladorLibro(Controlador):
+
+    def validar_objeto(self, libro):
+        if not libro.get_codigo() or len(libro.get_codigo().strip()) == 0 :  
+            raise Exception("Debe ingresar un codigo para el libro")
+        
+        if not libro.get_nombre() or len(nombre.get_nombre().strip()) == 0:
+            raise Exception("Debe ingresar un nombre para el libro")
+
+        if not libro.get_edicion() or len(nombre.get_edicion().strip()) == 0:
+            raise Exception("Debe ingresar un anho de edicion para el libro")
+
+        if not libro.get_autor() or len(nombre.get_autor().strip()) == 0:
+            raise Exception("Debe ingresar un autor para el libro")
+
+        if not libro.get_tipo() or len(libro.get_tipo().strip()) == 0:
+            raise Exception("Debe ingresar a que tipo de libro pertenece")
+
+
+    def validar_insercion(self, libro):
+        if libro.get_codigo() in self.get_lista_objetos().keys():
+            raise Exception("Ya existe un libro con el numero de codigo ingresado")
+
+    def validar_eliminacion(self, libro):
+        if not libro.get_codigo() in self.get_diccionario_objetos().keys():
+            raise Exception("NO existe libro con el numero de codigo ingresado")
+  
+
+    def buscar(self, nombre):
+        for nom in listar_objetos():
+            if nombre == nom.get_nombre():
+                break
+        return nom
+       
+class ControlLibroDigital(ControladorLibro):
+
+    def validar_insercion(self, libro):
+        ControladorLibro.validar_objeto(libro)
+        if not libro.get_formato() or len(libro.get_formato().strip()) == 0:
+            raise Exception("Debe ingresar el formato del libro")
+        if not self.get_precio()) or len(libro.get_precio().strip()) == 0:
+            raise Excettion("Debe ingresar el precio del libro")
+
+    def get_objetos(self):
+        if not self.__librosImpresos:
+            if not hasattr(get_root(), 'librosImpresos'):
+                get_root().librosImpresos = BTrees.OOBTree.BTree()
+            self.__librosImpresos = getattr(get_root(), 'librosImpresos')
+        return self.__librosImpresos
+
+
+class ControlLibroImpreso(ControladorLibro):
+
+    def get_objetos(self):
+        if not self.__librosDigitales:
+            if not hasattr(get_root(), 'libros'):
+                get_root().librosDigitales = BTrees.OOBTree.BTree()
+            self.__librosDigitales = getattr(get_root(), 'librosDigitales')
+        return self.__librosDigitales
+
+    
+
+
+
