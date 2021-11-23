@@ -1,0 +1,11 @@
+from datetime import date
+class Fecha(Date):
+    """Clase que representa a las fechas"""
+
+    def __init__(self, dia, mes, anho):
+        self.__date = Date(anho, dia, mes)
+
+    def getFecha(self):
+        return self.__date
+
+    

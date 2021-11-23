@@ -1,0 +1,118 @@
+from abc import ABCMeta, abstractmethod
+import persistent
+
+class Prestable(metaclass=ABCMeta, persistent.Persistent):
+    """Clase que representa a cosas prestables"""
+    def __init__(self):
+        pass
+
+    @abstract method
+    def prestarse(self):
+        pass
+ 
+    @abstract method
+    def devolverse(self):
+        pass
+
+class Vendible(metaclass=ABCMeta, persistent.Persistent):
+    """Clase que representa a cosas vendibles"""
+    def __init__(self):
+        pass
+  
+    @abstract method
+    def venderse(self):
+        pass
+
+class Reservable(persistent.Persistent):
+    __metaclass__ = ABCMeta
+    """Clase que representa a los bienes reservables"""
+    @abstract method
+    def reservarse(self):
+        pass
+
+    @abstract method
+    def cancelar_reserva(self):
+        pass
+ 
+    def renovar_reserva(self):
+        pass
+
+class Libro(Prestable, Reservable):
+    """Clase que representa a los libros"""
+
+    def __init__(self, codigo, nombre, tipo, edicion, autor):
+        self.__codigo = codigo
+        self.__nombre = nombre
+        self.__tipo = tipo
+        self.__edicion = edicion
+        self.__autor = autor
+        self.__estado_disponible = True
+        self.__reservado = False
+
+    def get_codigo(self):
+        return self.__codigo
+
+    def get_tipo(self):
+        return self.__tipo
+
+    def esta_disponible(self):
+        return self.__estado_disponible
+ 
+    def esta_reservado(self):
+        return self.__reservado
+     
+    def prestarse(self, fechaInicio):
+       self.__estado_disponible = False
+      
+    def devolverse(self):
+        self.__estado_disponible = True
+
+    def reservarse(self):
+        self.__reservado = True
+
+    def cancelar_reserva(self):
+        self.__reservado = False
+        
+
+class Tipo(persistent.Persistent):
+    __metaclass__ = ABCMeta
+    """Clase que representa a los tipos de libros"""
+    def __init__(self):
+         self.__vendible = False
+    
+    def esVendible(self):
+         return self.__vendible
+ 
+class Cientifico(Tipo, Vendible):
+    """Clase que representa a libros cientificos"""
+    def __init__(self, tipo_ciencia, paginas):
+        self.__ciencia = tipo_ciencia
+        self.__paginas = paginas
+        self.__vendible = True
+  
+class Recreativo(Tipo):
+    """Clase que representa a los libros recreativos"""
+     def __init__(self, tipo_ciencia):
+        self.__ciencia = tipo_ciencia
+        
+class Literario(Tipo):
+    """Clase que representa a los libros recreativos"""
+     def __init__(self, tipo_lectura):
+        self.__lectura = tipo_lectura
+        
+
+class Literario(Tipo):
+    """Clase que representa a los libros literarios"""
+    def __init__(self):
+         pass
+     
+class Cientifico(Tipo):
+    """Clase que representa a los libros cientificos"""
+    def __init__(self):
+         pass
+  
+class Recreativo(Tipo):
+    """Clase que representa a los libros recreativos"""
+
+
+

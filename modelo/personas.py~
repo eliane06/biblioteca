@@ -1,0 +1,56 @@
+import persistent
+from ficha import Ficha
+from libros import LibroImpreso, LibroDigital, Libro
+from fecha import Fecha
+
+class Persona(persistent.Persistent):
+    """Clase que representa a las personas  """ 
+  
+    def __init__(self, nombre, apellido, cedula):
+        self.__nombre = nombre
+        self.__apellido = apellido
+        self.__cedula = cedula
+
+    def get_nombre(self):
+        return self.__nombre
+
+    def get_apellido(self):
+        return self.__apellido
+
+    def get_cedula(self):
+        return self.__cedula
+
+    def __str__(self):
+        return self.__nombre + ' '+ self.__apellido + ' ' + self.__cedula
+
+
+ficha = Ficha()
+lector1 = Lector(145, ficha, "Armando", "Delvalle", 7884322)
+lector2 = Lector(146, ficha, "Marco", "Villalba", 6684322)
+lector3 = Lector(147, ficha, "Anahi", "Franco", 7234322)
+
+libro1 = LibroImpreso(543, "Historia de dos ciudades", 'novela', 4, "Charles Dickens")
+libro2 = LibroImpreso(544, "El Señor de los Anillos", 'fantasia', 3, "J.R.R. Tolkien")
+libro3 = LibroImpreso(545, "El principito", 'cuento', 3, "Antoine De Saint")
+
+funcionario1 = Encargado(123, "Angel", "Mareco", 5432439)
+
+print(funcionario1.prestar(libro1, "23/5/2014", lector1))
+print(funcionario1.prestar(libro1, "23/6/2014", lector2))
+print(funcionario1.prestar(libro2, "23/5/2014", lector1))
+print(funcionario1.prestar(libro3, "23/5/2014", lector1))
+print(funcionario1.prestar(libro1, "23/5/2014", lector1))
+print(funcionario1.devolver(libro1, "23/5/2014", lector1))
+print(funcionario1.prestar(libro1, "23/5/2014", lector2))
+
+
+libro11 = LibroDigital('pdf', 20000, 543, "Historia de dos ciudades", 'novela', 4, "Charles Dickens")
+libro22 = LibroDigital('pdf', 20000, 544, "El Señor de los Anillos", 'fantasia', 3, "J.R.R. Tolkien")
+libro33 = LibroDigital('pdf', 20000, 545, "El principito", 'cuento', 3, "Antoine De Saint")
+print("h")
+print(funcionario1.vender(libro11))
+print(libro11.calcular_monto())
+print(funcionario1.vender(libro11))
+
+
+
